@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -25,18 +25,24 @@ class App extends Component {
   }
 
   async getWeather(latitude,longitude) {
-    const url = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&apiKey=${process.env.REACT_APP_APIKEY}`
-    
-    let response = await fetch(url);
-    let data = await response.json();
-    console.log("data",data);
+    try {
+      const url = `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&apiKey=${process.env.REACT_APP_APIKEY}`
+      let response = await fetch(url);
+      let data = await response.json();
+      console.log("data",data);
+  if (data.cod * 1 === 200){
     this.setState({
       locationName: data.name,
       locationTemp: data.main.temp,
       locationDescription: data.weather[0].description,
       // put in more here
-    });
-  };
+    })
+  } 
+  else throw new Error (data.message)
+    } catch (error) {
+      console.log(error)
+    }
+    }
 
   render() {
     return (
@@ -47,8 +53,8 @@ class App extends Component {
               Awesome Weather App 
             
             </h1>
-    <h2 className="col-12">Location Name:{this.state.locationName}</h2>
-    <h3 className="col-12 text-danger">Temperature:{this.convertFtoC(this.state.locationTemp)}C</h3>
+    <h2 className="col-12">Location Name: {this.state.locationName}</h2>
+    <h3 className="col-12 text-danger">Temperature: {this.convertFtoC(this.state.locationTemp)}C</h3>
     <h3 className="col-12">Weather Description: {this.state.locationDescription}</h3>
           </div>
         </div>
