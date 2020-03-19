@@ -50,7 +50,7 @@ class App extends Component {
 
     async getWeatherForCities() {
       try {
-        const url = `http://api.openweathermap.org/data/2.5/group?id=2017370,6251999,2147714,5391959,3175395&units=metric&apiKey=${process.env.REACT_APP_APIKEY}`
+        const url = `https://api.openweathermap.org/data/2.5/group?id=2017370,6251999,2147714,5391959,3175395&units=metric&apiKey=${process.env.REACT_APP_APIKEY}`
         let response = await fetch(url);
         let data = await response.json();
         console.log("citiesdata",data);
